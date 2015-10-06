@@ -1,0 +1,3 @@
+class Device {
+    static parentType;
+}

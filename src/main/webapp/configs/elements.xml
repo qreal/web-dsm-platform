@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Elements>
+	<Category name="Algorithms">
+
+		<Element name="Initial Node">
+			<Image src="images/initialBlock.svg"/>
+		</Element>
+
+		<Element name="Final Node">
+			<Image src="images/finalBlock.svg"/>
+		</Element>
+
+		<Element name="Function">
+			<Property name="Body" type="string">
+				<value></value>
+			</Property>
+			<Property name="Initialization" type="checkbox">
+				<value>True</value>
+			</Property>
+			<Image src="images/functionBlock.svg"/>
+		</Element>
+
+		<Element name="Condition">
+			<Property name="Condition" type="string">
+				<value>0</value>
+			</Property>
+			<Image src="images/ifBlock.svg"/>
+		</Element>
+
+		<Element name="Loop">
+			<Property name="Iterations" type="string">
+				<value>10</value>
+			</Property>
+			<Image src="images/loopBlock.svg"/>
+		</Element>
+
+		<Element name="Switch">
+			<Property name="Condition" type="string">
+				<value>0</value>
+			</Property>
+			<Image src="images/switchBlock.svg"/>
+		</Element>
+
+		<Element name="Fork">
+			<Image src="images/forkBlock.svg"/>
+		</Element>
+
+		<Element name="Variable Initialization">
+			<Property name="Value" type="string">
+				<value>0</value>
+			</Property>
+			<Property name="Variable" type="string">
+				<value>x</value>
+			</Property>
+			<Image src="images/variableInitBlock.svg"/>
+		</Element>
+
+	</Category>
+	<Category name="Actions">
+
+		<Element name="Play Tone">
+			<Property name="File Name" type="string">
+				<value>media/beep.wav</value>
+			</Property>
+			<Image src="images/playToneBlock.svg"/>
+		</Element>
+
+		<Element name="Motors Forward">
+			<Property name="Ports" type="string">
+				<value>M3, M4</value>
+			</Property>
+			<Property name="Power (%)" type="string">
+				<value>100</value>
+			</Property>
+			<Image src="images/enginesForwardBlock.svg"/>
+		</Element>
+
+		<Element name="Motors Backward">
+			<Property name="Ports" type="string">
+				<value>M3, M4</value>
+			</Property>
+			<Property name="Power (%)" type="string">
+				<value>100</value>
+			</Property>
+			<Image src="images/enginesBackwardBlock.svg"/>
+		</Element>
+
+		<Element name="Stop Motors">
+			<Property name="Ports" type="string">
+				<value>M1, M2, M3, M4</value>
+			</Property>
+			<Image src="images/enginesStopBlock.svg"/>
+		</Element>
+
+		<Element name="Clear Encoder">
+			<Property name="Ports" type="string">
+				<value>B1, B2, B3, B4</value>
+			</Property>
+			<Image src="images/nullificationEncoderBlock.svg"/>
+		</Element>
+
+		<Element name="Angular Servo">
+			<Property name="Ports" type="string">
+				<value>E1</value>
+			</Property>
+			<Property name="Angle (degrees)" type="string">
+				<value>0</value>
+			</Property>
+			<Image src="images/angularServoBlock.svg"/>
+		</Element>
+
+		<Element name="Led">
+			<Property name="Color" type="dropdown">
+				<value>red</value>
+				<Variants>
+					<variant>green</variant>
+					<variant>off</variant>
+					<variant>red</variant>
+				</Variants>
+			</Property>
+			<Image src="images/ledBlock.svg"/>
+		</Element>
+
+	</Category>
+	<Category name="Wait">
+
+		<Element name="Timer">
+			<Property name="Delay (ms)" type="string">
+				<value>1000</value>
+			</Property>
+			<Image src="images/timerBlock.svg"/>
+		</Element>
+
+		<Element name="Wait for Light">
+			<Property name="Percents" type="string">
+				<value>0</value>
+			</Property>
+			<Property name="Port" type="dropdown">
+				<value>A1</value>
+				<Variants>
+					<variant>A1</variant>
+					<variant>A2</variant>
+					<variant>A3</variant>
+					<variant>A4</variant>
+					<variant>A5</variant>
+					<variant>A6</variant>
+				</Variants>
+			</Property>
+			<Property name="Sign" type="dropdown">
+				<value>greater</value>
+				<Variants>
+					<variant>greater</variant>
+					<variant>less</variant>
+					<variant>not greater</variant>
+					<variant>not less</variant>
+				</Variants>
+			</Property>
+			<Image src="images/waitForLightBlock.svg"/>
+		</Element>
+
+	</Category>
+	<Category name="Drawing">
+
+		<Element name="Draw Pixel">
+			<Property name="X" type="spinner">
+				<value>0</value>
+			</Property>
+			<Property name="Y" type="spinner">
+				<value>0</value>
+			</Property>
+			<Image src="images/drawPixelBlock.svg"/>
+		</Element>
+
+		<Element name="Smile">
+			<Image src="images/smileBlock.svg"/>
+		</Element>
+
+		<Element name="Marker Down">
+			<Image src="images/markerDownBlock.svg"/>
+		</Element>
+
+		<Element name="Marker Up">
+			<Image src="images/markerUpBlock.svg"/>
+		</Element>
+
+		<Element name="Background Color">
+			<Property name="Color" type="dropdown">
+			<value>white</value>
+			<Variants>
+				<variant>black</variant>
+				<variant>blue</variant>
+				<variant>cyan</variant>
+				<variant>dark blue</variant>
+				<variant>dark cyan</variant>
+				<variant>dark gray</variant>
+				<variant>dark green</variant>
+				<variant>dark magneta</variant>
+				<variant>dark red</variant>
+				<variant>dark yellow</variant>
+				<variant>gray</variant>
+				<variant>green</variant>
+				<variant>light gray</variant>
+				<variant>magneta</variant>
+				<variant>red</variant>
+				<variant>white</variant>
+				</Variants>
+			</Property>
+			<Image src="images/setBackgroundBlock.svg"/>
+		</Element>
+
+	</Category>
+</Elements>
