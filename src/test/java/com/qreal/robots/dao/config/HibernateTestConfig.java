@@ -75,10 +75,4 @@ public class HibernateTestConfig {
         return new UserDAOImpl(sessionFactory);
     }
 
-    @Autowired
-    @Bean(name = "robotDao")
-    public RobotDAO getRobotDao(SessionFactory sessionFactory) {
-        return new RobotDAOImpl(sessionFactory);
-    }
-
 }

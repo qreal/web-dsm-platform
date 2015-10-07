@@ -3,7 +3,6 @@ package com.qreal.robots.model.auth;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qreal.robots.model.diagram.Diagram;
 import com.qreal.robots.model.diagram.Folder;
-import com.qreal.robots.model.robot.Robot;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,9 +18,6 @@ public class User {
 
     @JsonIgnore
     private Set<UserRole> userRole = new HashSet<>(0);
-
-    @JsonIgnore
-    private Set<Robot> robots = new HashSet<>(0);
 
     public User() {
     }
@@ -79,13 +75,4 @@ public class User {
         this.userRole = userRole;
     }
 
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
-    public Set<Robot> getRobots() {
-        return this.robots;
-    }
-
-    public void setRobots(Set<Robot> robots) {
-        this.robots = robots;
-    }
 }

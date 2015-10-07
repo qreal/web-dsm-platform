@@ -4,12 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.qreal.robots.dao.UserDAO;
 import com.qreal.robots.model.auth.User;
-import com.qreal.robots.model.robot.Message;
-import com.qreal.robots.model.robot.Robot;
-import com.qreal.robots.model.robot.RobotInfo;
-import com.qreal.robots.model.robot.RobotWrapper;
 import com.qreal.robots.service.UserService;
 import com.qreal.robots.socket.SocketClient;
 import org.apache.log4j.Logger;
@@ -46,60 +41,10 @@ public class MainController {
     public ModelAndView home(HttpSession session) {
         User user = userService.findByUserName(getUserName());
 
-        List<RobotWrapper> fullRobotInfo = getFullRobotInfo(user.getRobots(), getOnlineRobots(user));
-        session.setAttribute("fullRobotInfo", fullRobotInfo);
-
         ModelAndView model = new ModelAndView();
         model.addObject("user", user);
-        model.addObject("robotsWrapper", fullRobotInfo);
         model.setViewName("index");
         return model;
-    }
-
-    private List<RobotWrapper> getFullRobotInfo(Set<Robot> robots, List<RobotInfo> onlineUserRobots) {
-        List<RobotWrapper> robotsWrapper = Lists.newArrayList();
-        for (Robot robot : robots) {
-            boolean found = false;
-            for (RobotInfo robotInfo : onlineUserRobots) {
-                if (robot.getSsid().equals(robotInfo.getSsid())) {
-                    found = true;
-                    robotsWrapper.add(new RobotWrapper(robot, robotInfo, "Online"));
-                }
-            }
-            if (!found) {
-                robotsWrapper.add(new RobotWrapper(robot, "Offline"));
-            }
-        }
-        return robotsWrapper;
-    }
-
-    private List<RobotInfo> getOnlineRobots(User user) {
-        SocketClient socketClient = new SocketClient(HOST_NAME, PORT);
-
-        if (socketClient.hostAvailable()) {
-            try {
-                String response = socketClient.sendMessage(getUserOnlineRobots(user));
-                return mapper.readValue(response,
-                        new TypeReference<List<RobotInfo>>() {
-                        });
-            } catch (IOException e) {
-                LOG.error("Error getting online robots", e);
-            }
-        } else {
-            LOG.warn("Robot routing server is offline. Robot data is unavailable ");
-        }
-        return Collections.emptyList();
-
-    }
-
-    private String getUserOnlineRobots(User user) throws JsonProcessingException {
-        List<RobotInfo> robots = Lists.newArrayList();
-        for (Robot robot : user.getRobots()) {
-            robots.add(new RobotInfo(user.getUsername(), robot.getName(), robot.getSsid()));
-        }
-
-        Message message = new Message("WebApp", "getOnlineRobots", robots);
-        return mapper.writeValueAsString(message);
     }
 
     private String getUserName() {
