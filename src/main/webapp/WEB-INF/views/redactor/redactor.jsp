@@ -1,7 +1,7 @@
 <%@ include file="../include/include.jsp" %>
 
 <head>
-    <title>Robots Diagram</title>
+    <title>Web-dsm</title>
 
     <jsp:include page="../include/scripts.jsp" flush="true"/>
 
@@ -19,6 +19,4 @@
 
 <body ng-app ng-controller="RootDiagramController">
     <%@ include file="diagramContent.jsp" %>
-    <%@ include file="2dmodelContent.jsp" %>
 </body>
-</html>

@@ -72,11 +72,6 @@ class DiagramController {
         this.nodeTypesMap = nodeTypesMap;
     }
 
-    openTwoDModel(): void {
-        $("#diagramContent").hide();
-        $("#twoDModelContent").show();
-    }
-
     createDefaultNode(type: string, x: number, y: number, properties: PropertiesMap,
                               imagePath: string, id?: string): DefaultDiagramNode {
         var node: DefaultDiagramNode = new DefaultDiagramNode(type, x, y, properties, imagePath, id);
