@@ -84,7 +84,7 @@ equal to its class name.
         <!-- Settings for gamepad TCP server to communicate with Android "TRIK Gamepad" application -->
         <gamepad port="4444" optional="true"/>
 
-        <!-- Settings for mailbox server (which enables communication between robots) -->
+        <!-- Settings for mailbox server (which enables communication between web) -->
         <mailbox port="8889" optional="true"/>
     </deviceClasses>
 

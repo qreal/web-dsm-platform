@@ -2,11 +2,10 @@
 <html>
 <head>
     <title>Login</title>
+
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/bootstrap.min.css' />"/>
     <link rel="stylesheet" href="<c:url value='/resources/css/login.css'/>"/>
     <link rel="stylesheet" href="<c:url value='/resources/css/error.css'/>"/>
-
-
 </head>
 <body>
 

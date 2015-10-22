@@ -1,5 +1,6 @@
 <%@ include file="../include/include.jsp" %>
 
+<html>
 <head>
     <title>Web-dsm</title>
 
@@ -20,3 +21,4 @@
 <body ng-app ng-controller="RootDiagramController">
     <%@ include file="diagramContent.jsp" %>
 </body>
+</html>

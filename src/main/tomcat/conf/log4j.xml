@@ -15,7 +15,7 @@
         <level value="INFO"/>
     </logger>
 
-    <logger name="com.qreal.robots.controller">
+    <logger name="com.qreal.web.controller">
         <level value="INFO"/>
     </logger>
 
