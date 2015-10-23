@@ -1,4 +1,0 @@
-enum Direction {
-    input,
-    output
-}
