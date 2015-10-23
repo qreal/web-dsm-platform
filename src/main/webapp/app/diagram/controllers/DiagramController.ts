@@ -10,12 +10,10 @@ class DiagramController {
 
     private diagramPaper : HTMLDivElement;
     private flagDraw : boolean = false;
-    private pointsList : utils.PairArray = [];
     private timer : number;
     private currentTime : number;
     private clickFlag : boolean;
     private date : Date = new Date();
-    private data : Gesture[];
     private flagAdd : boolean;
     private rightClickFlag : boolean;
     private menuController: DiagramMenuManager;
@@ -28,7 +26,6 @@ class DiagramController {
 
         DropdownListManager.addDropdownList("Link", "Guard", ["", "false", "iteration", "true"]);
 
-        this.loadGestures();
         this.flagDraw = false;
 
         this.initPointerdownListener();
@@ -205,9 +202,6 @@ class DiagramController {
         this.diagramPaper = <HTMLDivElement> document.getElementById('diagram_paper');
         this.onMouseUp = <any>controller.onMouseUp.bind(this);
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
-
-        this.onMouseUp = <any>controller.onMouseMove.bind(this);
-        this.diagramPaper.addEventListener('mousemove', this.onMouseMove.bind(this));
     }
 
     private initPointerMoveAndUpListener(): void {
@@ -246,37 +240,6 @@ class DiagramController {
         this.flagAdd = false;
         clearTimeout(this.timer);
         this.flagDraw = true;
-    }
-
-    private smoothing(pair1 : utils.Pair, pair2 : utils.Pair, diff : number) {
-        var a = 1;
-        var c = 0.0275; // 'a' and 'c' are empirical constants
-        var b = Math.exp(-c * diff);
-        return new utils.Pair(pair2.first * b + (1 - b) * pair1.first
-            , pair2.second + (1 - b) * pair1.second);
-    }
-
-    private onMouseMove(e)
-    {
-        if (!(event.button == 2))
-            return;
-
-        if (this.flagDraw === false)
-            return;
-
-        var pair: utils.Pair = new utils.Pair(e.pageX, e.pageY);
-        if (this.flagAdd) {
-
-            var currentPair = this.pointsList[this.pointsList.length - 1];
-            var n = this.date.getTime();
-            var diff = n - this.currentTime;
-            this.currentTime = n;
-            pair = this.smoothing(currentPair, new utils.Pair(e.pageX, e.pageY), diff);
-
-            $('#diagram_paper').line(currentPair.first, currentPair.second, pair.first, pair.second);
-        }
-        this.flagAdd = true;
-        this.pointsList.push(pair);
     }
 
     private onMouseUp(e)
@@ -329,11 +292,6 @@ class DiagramController {
                 this.graph.addCell(link);
             }
         }
-        else {
-            var keyG = new KeyGiver(this);
-            keyG.isGesture();
-        }
-        this.pointsList = [];
     }
 
     private initCustomContextMenu(): void {
@@ -498,26 +456,6 @@ class DiagramController {
             }
         }
         xhr.send();
-    }
-
-    private loadGestures() {
-        var url = "resources/gestures.json";
-        this.downloadData(url, this.processGestures.bind(this));
-    }
-
-    private processGestures(xhr) {
-        var fileData = JSON.parse(xhr.responseText);
-        this.data = [];
-        for (var i = 0; i < fileData.length; i++)
-            this.data[i] = new Gesture(<string> fileData[i].name, <string[]> fileData[i].key, <number> fileData[i].factor);
-    }
-
-    public getGestureList(): utils.PairArray {
-        return this.pointsList;
-    }
-
-    public getGestureData(): Gesture[] {
-        return this.data;
     }
 
     public getMouseupEvent() {
