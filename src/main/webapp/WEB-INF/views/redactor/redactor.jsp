@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/bootstrap.min.css' />"/>
     <link rel="stylesheet" href="<c:url value='/resources/css/joint.css' />"/>
     <link rel="stylesheet" href="<c:url value='/resources/css/base.css' />"/>
-    <link rel="stylesheet" href="<c:url value='/resources/css/2dmodel.css' />" />
     <link rel="stylesheet" href="<c:url value='/resources/css/context-menu.css' />" />
 
     <link rel="stylesheet" href="<c:url value='/resources/treeview/jquery.treeview.css' />"/>

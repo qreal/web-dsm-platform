@@ -6,16 +6,9 @@ class DiagramController {
     private linksMap = {};
     private currentElement: DiagramElement;
     private isPaletteLoaded = false;
-    private mouseupEvent;
 
     private diagramPaper : HTMLDivElement;
     private flagDraw : boolean = false;
-    private timer : number;
-    private currentTime : number;
-    private clickFlag : boolean;
-    private date : Date = new Date();
-    private flagAdd : boolean;
-    private rightClickFlag : boolean;
     private menuController: DiagramMenuManager;
 
     constructor($scope, $compile) {
@@ -28,15 +21,9 @@ class DiagramController {
 
         this.flagDraw = false;
 
-        this.initPointerdownListener();
-        this.initPointerMoveAndUpListener();
         this.initDeleteListener();
         this.initCustomContextMenu();
         this.menuController = new DiagramMenuManager($scope);
-
-        $scope.$on("interpret", function(event, timeline) {
-            console.log(InterpretManager.interpret(controller.graph, controller.nodesMap, controller.linksMap, timeline));
-        });
     }
 
     public getGraph(): joint.dia.Graph {
@@ -156,142 +143,6 @@ class DiagramController {
                 controller.setNodeProperties(node);
             }
         });
-    }
-
-    private initPointerdownListener(): void {
-        var controller: DiagramController = this;
-        this.paper.on('cell:pointerdown',
-            function (cellView, event, x, y) {
-                controller.clickFlag = true;
-                controller.rightClickFlag = false;
-                var node: DiagramNode = controller.nodesMap[cellView.model.id];
-                if (node) {
-                    controller.currentElement = node;
-                    controller.setNodeProperties(node);
-                    if (event.button == 2) {
-                        controller.startDrawing();
-                        controller.rightClickFlag = true;
-                    }
-                } else {
-                    var link: Link = controller.linksMap[cellView.model.id];
-                    if (link) {
-                        controller.currentElement = link;
-                        controller.setNodeProperties(link);
-                    } else {
-                        controller.currentElement = undefined;
-                    }
-                }
-            }
-        );
-
-        this.paper.on('blank:pointerdown',
-            function (evt, x, y) {
-                var n = controller.date.getTime();
-                controller.currentTime = n;
-                controller.flagAdd = false;
-                clearTimeout(controller.timer);
-                controller.flagDraw = true;
-                if (evt.button == 2)
-                    controller.startDrawing();
-
-                $(".property").remove();
-                controller.currentElement = undefined;
-            }
-        );
-
-        this.diagramPaper = <HTMLDivElement> document.getElementById('diagram_paper');
-        this.onMouseUp = <any>controller.onMouseUp.bind(this);
-        document.addEventListener('mouseup', this.onMouseUp.bind(this));
-    }
-
-    private initPointerMoveAndUpListener(): void {
-
-        var controller: DiagramController = this;
-        this.paper.on('cell:pointermove',  function (cellView, event, x, y) {
-                controller.clickFlag = false;
-            }
-        );
-
-        this.paper.on('cell:pointerup', function (cellView, event, x, y) {
-            if (!($(event.target).parents(".custom-menu").length > 0)) {
-                $(".custom-menu").hide(100);
-            }
-            if ((controller.clickFlag) && (event.button == 2)) {
-                console.log("right-click");
-                $(".custom-menu").finish().toggle(100).
-                    css({
-                        top: event.pageY + "px",
-                        left: event.pageX + "px"
-                    });
-            }
-        });
-
-        this.graph.on('change:position', function(cell) {
-            if (!controller.rightClickFlag)
-                return;
-            cell.set('position', cell.previous('position'));
-        });
-
-    }
-
-    private startDrawing() {
-        var n = this.date.getTime();
-        this.currentTime = n;
-        this.flagAdd = false;
-        clearTimeout(this.timer);
-        this.flagDraw = true;
-    }
-
-    private onMouseUp(e)
-    {
-        if (this.flagDraw === false)
-            return;
-        this.mouseupEvent = e;
-        this.flagDraw = false;
-        this.timer = setTimeout(() => this.finishDraw(e), 1000);
-    }
-
-    private finishDraw(e)
-    {
-        if (this.flagDraw === true)
-            return;
-        var pencil = document.getElementsByClassName('pencil');
-        for (var i = pencil.length; i > 0; i--) {
-            pencil[i - 1].parentNode.removeChild(pencil[i - 1]);
-        }
-        var controller: DiagramController = this;
-        if (this.currentElement != undefined) {
-            var elementBelow = this.graph.get('cells').find(function (cell) {
-                if (cell instanceof joint.dia.Link) return false; // Not interested in links.
-                if (cell.id === controller.currentElement.getJointObject().id) return false; // The same element as the dropped one.
-                var mXBegin = cell.getBBox().origin().x;
-                var mYBegin = cell.getBBox().origin().y;
-                var mXEnd = cell.getBBox().corner().x;
-                var mYEnd = cell.getBBox().corner().y;
-
-                var leftElementPos:number = e.pageX - $(controller.diagramPaper).offset().left + $(controller.diagramPaper).scrollLeft();
-                var topElementPos:number = e.pageY - $(controller.diagramPaper).offset().top + $(controller.diagramPaper).scrollTop();
-
-                if ((mXBegin <= leftElementPos) && (mXEnd >= leftElementPos)
-                    && (mYBegin <= topElementPos) && (mYEnd >= topElementPos) && (controller.rightClickFlag))
-                    return true;
-                return false;
-            });
-
-            if (elementBelow) {
-                var link = new joint.dia.Link({
-                    source: { id: this.currentElement.getJointObject().id },
-                    target: { id: elementBelow.id },
-                    attrs: { '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' } }
-                });
-
-                var linkObject: Link = new Link(link);
-
-                controller.addLink(link.id, linkObject);
-
-                this.graph.addCell(link);
-            }
-        }
     }
 
     private initCustomContextMenu(): void {
@@ -442,23 +293,5 @@ class DiagramController {
             this.makeUnselectable(child);
             child = child.nextSibling;
         }
-    }
-
-    // download file with gestures
-    private downloadData(url, success) {
-        var xhr = XmlHttpFactory.createXMLHTTPObject();
-        xhr.open('GET', url, true);
-        xhr.onreadystatechange = function(e) {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    success(xhr);
-                }
-            }
-        }
-        xhr.send();
-    }
-
-    public getMouseupEvent() {
-        return this.mouseupEvent;
     }
 }
