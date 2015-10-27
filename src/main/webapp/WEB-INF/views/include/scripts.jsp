@@ -6,7 +6,6 @@
 <script src="<c:url value='/resources/js/angular.js' />"></script>
 <script src="<c:url value='/resources/js/context-menu.js' />"></script>
 <script src="<c:url value='/resources/bootstrap/js/bootstrap.min.js' />"></script>
-<script src="<c:url value='/resources/js/raphael-min.js' />"></script>
 
 <script src="<c:url value='/app/out.js' />"></script>
 
