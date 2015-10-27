@@ -3,7 +3,6 @@ CREATE DATABASE diagram;
 USE diagram;
 
 
-DROP TABLE IF EXISTS robots;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS vertices;
 DROP TABLE IF EXISTS properties;
@@ -93,16 +92,6 @@ CREATE TABLE user_roles (
   CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username)
 );
 
-
-CREATE TABLE robots (
-  id         INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  name       VARCHAR(45)     NOT NULL,
-  ssid VARCHAR(45) NOT NULL,
-  username   VARCHAR(45)     NOT NULL,
-  status VARCHAR(45),
-  UNIQUE KEY uni_robotName_username (name, username),
-  FOREIGN KEY (username) REFERENCES users (username)
-);
 
 INSERT INTO users (username, password, enabled)
 VALUES ('denis', '$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y', TRUE);
