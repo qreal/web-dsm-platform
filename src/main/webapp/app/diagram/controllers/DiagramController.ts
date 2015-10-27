@@ -8,8 +8,8 @@ class DiagramController {
     private isPaletteLoaded = false;
 
     private diagramPaper : HTMLDivElement;
-    private flagDraw : boolean = false;
     private menuController: DiagramMenuManager;
+    private clickFlag : boolean;
 
     constructor($scope, $compile) {
 
@@ -19,8 +19,8 @@ class DiagramController {
 
         DropdownListManager.addDropdownList("Link", "Guard", ["", "false", "iteration", "true"]);
 
-        this.flagDraw = false;
-
+        this.initPointerdownListener();
+        this.initPointerMoveAndUpListener();
         this.initDeleteListener();
         this.initCustomContextMenu();
         this.menuController = new DiagramMenuManager($scope);
@@ -141,6 +141,50 @@ class DiagramController {
                 var node = controller.createDefaultNode(type, leftElementPos, topElementPos, nodeProperties, image);
                 controller.currentElement = node;
                 controller.setNodeProperties(node);
+            }
+        });
+    }
+
+    private initPointerdownListener(): void {
+        var controller: DiagramController = this;
+        this.paper.on('cell:pointerdown',
+            function (cellView) {
+                controller.clickFlag = true;
+                var node: DiagramNode = controller.nodesMap[cellView.model.id];
+                if (node) {
+                    controller.currentElement = node;
+                    controller.setNodeProperties(node);
+                } else {
+                    var link: Link = controller.linksMap[cellView.model.id];
+                    if (link) {
+                        controller.currentElement = link;
+                        controller.setNodeProperties(link);
+                    } else {
+                        controller.currentElement = undefined;
+                    }
+                }
+            });
+    }
+
+    private initPointerMoveAndUpListener(): void {
+
+        var controller:DiagramController = this;
+        this.paper.on('cell:pointermove', function () {
+                controller.clickFlag = false;
+            }
+        );
+
+        this.paper.on('cell:pointerup', function (cellView, event) {
+            if (!($(event.target).parents(".custom-menu").length > 0)) {
+                $(".custom-menu").hide(100);
+            }
+            if ((controller.clickFlag) && (event.button == 2)) {
+                console.log("right-click");
+                $(".custom-menu").finish().toggle(100).
+                    css({
+                        top: event.pageY + "px",
+                        left: event.pageX + "px"
+                    });
             }
         });
     }
