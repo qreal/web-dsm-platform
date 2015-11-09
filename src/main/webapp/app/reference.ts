@@ -1,6 +1,5 @@
 /// <reference path="diagram/models/DiagramElement.ts" />
 //grunt-start
-/// <reference path="RootDiagramController.ts" />
 /// <reference path="XmlHttpFactory.ts" />
 /// <reference path="diagram/controllers/DiagramController.ts" />
 /// <reference path="diagram/loaders/PaletteLoader.ts" />

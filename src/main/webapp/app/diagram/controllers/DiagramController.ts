@@ -5,14 +5,11 @@ class DiagramController {
     private nodesMap = {};
     private linksMap = {};
     private currentElement: DiagramElement;
-    private isPaletteLoaded = false;
-
     private diagramPaper : HTMLDivElement;
     private menuController: DiagramMenuManager;
     private clickFlag : boolean;
 
     constructor($scope, $compile) {
-
         var controller: DiagramController = this;
         $scope.vm = controller;
         PaletteLoader.loadElementsFromXml(this, "configs/elements.xml", $scope, $compile);
@@ -49,7 +46,6 @@ class DiagramController {
         this.setSpinnerListener();
         this.initDragAndDrop();
         this.makeUnselectable(document.getElementById("diagramContent"));
-        this.isPaletteLoaded = true;
     }
 
     setNodeTypesMap(nodeTypesMap: NodeTypesMap): void {

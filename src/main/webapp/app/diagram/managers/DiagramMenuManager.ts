@@ -143,7 +143,6 @@ class DiagramMenuManager {
         });
     }
 
-
     private createNewDiagram(): void {
         $('#confirmNew').modal('show');
     }
@@ -183,7 +182,7 @@ class DiagramMenuManager {
         });
     }
 
-    private showCreatingMenu() {
+    private showCreatingMenu(): void {
         var menuManager = this;
         this.clearFolderMenu();
         $('.folderMenu').append(
