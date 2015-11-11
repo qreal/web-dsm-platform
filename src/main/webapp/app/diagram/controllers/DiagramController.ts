@@ -5,7 +5,6 @@ class DiagramController {
     private nodesMap = {};
     private linksMap = {};
     private currentElement: DiagramElement;
-    private diagramPaper : HTMLDivElement;
     private menuController: DiagramMenuManager;
     private clickFlag : boolean;
 
@@ -58,27 +57,6 @@ class DiagramController {
         this.nodesMap[node.getJointObject().id] = node;
         this.graph.addCell(node.getJointObject());
         return node;
-    }
-
-    createNode(type: string, x: number, y: number): void {
-        var image: string = this.nodeTypesMap[type].image;
-
-        var typeProperties: PropertiesMap = this.nodeTypesMap[type].properties;
-
-        var nodeProperties: PropertiesMap = {};
-        for (var property in typeProperties) {
-            nodeProperties[property] = new Property(typeProperties[property].value,
-                typeProperties[property].type);
-        }
-
-        var leftElementPos: number = x - $(this.diagramPaper).offset().left + $(this.diagramPaper).scrollLeft();
-        var topElementPos: number = y - $(this.diagramPaper).offset().top + $(this.diagramPaper).scrollTop();
-        var gridSize: number = this.paper.getGridSizeValue();
-        leftElementPos -= leftElementPos % gridSize;
-        topElementPos -= topElementPos % gridSize;
-        var node = this.createDefaultNode(type, leftElementPos, topElementPos, nodeProperties, image);
-        this.currentElement = node;
-        this.setNodeProperties(node);
     }
 
     private removeCurrentElement(): void {
