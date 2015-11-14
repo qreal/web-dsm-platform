@@ -9,9 +9,9 @@
             <ul class="nav navbar-nav">
 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Redactor<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Editor<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="<c:url value="/redactor"/>">Redactor</a></li>
+                        <li><a href="<c:url value="/editor"/>">Editor</a></li>
                     </ul>
                 </li>
 

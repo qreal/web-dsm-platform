@@ -9,10 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by vladzx on 25.10.14.
  */
 @Controller
-public class RedactorController {
+public class EditorController {
 
-    @RequestMapping(value = "/redactor", method = RequestMethod.GET)
+    @RequestMapping(value = "/editor", method = RequestMethod.GET)
     public ModelAndView index() {
-        return new ModelAndView("redactor/redactor");
+        return new ModelAndView("editor/editor");
     }
 }
