@@ -6,12 +6,15 @@ class DiagramController {
     private linksMap = {};
     private currentElement: DiagramElement;
     private menuController: DiagramMenuManager;
-    private clickFlag : boolean;
+    private clickFlag: boolean;
+    private paletteLoader: PaletteLoader;
+    private palette: Palette;
 
     constructor($scope, $compile) {
         var controller: DiagramController = this;
         $scope.vm = controller;
-        PaletteLoader.loadElementsFromXml(this, "configs/elements.xml", $scope, $compile);
+        //PaletteLoaderOld.loadElementsFromXml(this, "configs/elements.xml", $scope, $compile);
+        this.paletteLoader = new PaletteLoader("configs/elements.xml", this);
 
         DropdownListManager.addDropdownList("Link", "Guard", ["", "false", "iteration", "true"]);
 
@@ -20,6 +23,10 @@ class DiagramController {
         this.initDeleteListener();
         this.initCustomContextMenu();
         this.menuController = new DiagramMenuManager($scope);
+    }
+
+    public setPalette() {
+        this.palette = new Palette(this.paletteLoader);
     }
 
     public getGraph(): joint.dia.Graph {
@@ -276,7 +283,7 @@ class DiagramController {
             select: function (event, ui) {
                 var tr = $(this).closest('tr');
                 var name = tr.find('td:first').html();
-                var value = ui.item.value;;
+                var value = ui.item.value;
                 var property: Property = controller.currentElement.getProperties()[name];
                 property.value = value;
                 controller.currentElement.setProperty(name, property);
