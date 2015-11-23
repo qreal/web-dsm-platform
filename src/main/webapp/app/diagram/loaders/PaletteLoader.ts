@@ -2,14 +2,12 @@ class PaletteLoader {
     private nodeTypesMap: NodeTypesMap = {};
     private categories: string[];
     private categoriesMap: CategoriesMap = {};
-    private diagramController: DiagramController;
 
-    constructor (pathToXML: string, controller: DiagramController) {
-        this.loadElementsFromXml(pathToXML);
-        this.diagramController = controller;
+    constructor (pathToXML: string, func) {
+        this.loadElementsFromXml(pathToXML, func);
     }
 
-    private loadElementsFromXml(pathToXML: string) {
+    private loadElementsFromXml(pathToXML: string, func) {
         var paletteLoader = this;
         var req: any = XmlHttpFactory.createXMLHTTPObject();
         if (!req) {
@@ -19,9 +17,13 @@ class PaletteLoader {
 
         req.open("GET", pathToXML, true);
         req.onreadystatechange = function() {
-            paletteLoader.parseElementsXml(req);
+            paletteLoader.parseElementsXml(req, func);
         };
         req.send(null);
+    }
+
+    public getNodeTypesMap() {
+        return this.nodeTypesMap;
     }
 
     public getCategories() {
@@ -40,7 +42,7 @@ class PaletteLoader {
         return this.nodeTypesMap[nodeType].properties;
     }
 
-    private parseElementsXml(req): void {
+    private parseElementsXml(req, func): void {
         try {
             if (req.readyState == 4) {
                 if (req.status == 200) {
@@ -82,7 +84,7 @@ class PaletteLoader {
                             this.nodeTypesMap[typeName].properties = properties;
                         }
                     }
-                    this.diagramController.setPalette();
+                    func();
                 } else {
                     alert("Can't load palette:\n" + req.statusText);
                 }

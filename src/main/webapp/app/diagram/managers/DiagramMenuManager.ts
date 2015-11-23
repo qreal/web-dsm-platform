@@ -1,5 +1,5 @@
 class DiagramMenuManager {
-
+/*
     private diagramController: DiagramController;
     private currentDiagramName: string;
     private currentDiagramFolder;
@@ -305,5 +305,5 @@ class DiagramMenuManager {
         if (this.pathToFolder.length > 0) {
             this.showFolderTable(this.pathToFolder.pop());
         }
-    }
+    }*/
 }
