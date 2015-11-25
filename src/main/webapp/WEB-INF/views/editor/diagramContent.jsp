@@ -15,6 +15,8 @@
                             <li><a href="" role="menuitem" tabindex="-1" data-toggle="modal" ng-click="vm.menuController.saveDiagramAs()">SaveAs</a></li>
                         </ul>
                     </li>
+                    <li><a href="" class="glyphicon glyphicon-arrow-left" ng-click="vm.controller.redo()"></a></li>
+                    <li><a href="" class="glyphicon glyphicon-arrow-right" ng-click="vm.controller.undo()"></a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">

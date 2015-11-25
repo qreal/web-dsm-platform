@@ -10,4 +10,8 @@ class ChangePropertyCommand implements Command{
     public execute(model: Model) {
         model.changePropertyValue(this.name, this.value);
     }
+
+    public unexecute(model: Model) {
+
+    }
 }

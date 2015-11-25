@@ -12,9 +12,8 @@ class Facade {
         this.paletteLoader = new PaletteLoader("configs/elements.xml", function () {
             facade.init()
         });
-        this.model = new Model(function (element) {
-            facade.propertyEditor.setNodeProperties(element)
-        });
+        this.model = new Model(function (element) {facade.propertyEditor.setNodeProperties(element)}
+            , function (node) { facade.scene.addNode(node)});
         this.controller = new Controller(this.model);
         this.propertyEditor = new PropertyEditor(this.controller);
 

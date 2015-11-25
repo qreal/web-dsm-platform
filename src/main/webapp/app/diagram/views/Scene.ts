@@ -24,6 +24,10 @@ class Scene {
         this.controller.addUndoStack(addCommand);
     }
 
+    public addNode(node) {
+        this.graph.addCell(node.getJointObject());
+    }
+
     private initDragAndDrop(): void {
         var scene: Scene = this;
         var controller: Controller = this.controller;
@@ -139,11 +143,5 @@ class Scene {
                 }
             }
         });
-    }
-
-    private RemoveCurrentElement(): void {
-        var controller: Controller = this.controller;
-        var remove: Command = new RemoveCurrentElement();
-        controller.addUndoStack(remove);
     }
 }

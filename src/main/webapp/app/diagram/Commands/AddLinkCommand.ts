@@ -10,4 +10,8 @@ class AddLinkCommand implements Command {
     public execute(model: Model) {
         model.addLink(this.linkId, this.linkObject);
     }
+
+    public unexecute(model: Model) {
+
+    }
 }

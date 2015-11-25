@@ -8,4 +8,8 @@ class ChangeCurrentElementCommand implements Command {
     public execute(model: Model) {
         model.setCurrentElement(this.element);
     }
+
+    public unexecute(model: Model) {
+
+    }
 }

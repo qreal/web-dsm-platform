@@ -3,8 +3,9 @@ class Model {
     private linksMap = {};
     private currentElement: DiagramElement;
 
-    constructor(handler) {
+    constructor(handler, handler2) {
         this.addHandler(handler);
+        this.addHandler(handler2);
     }
 
     private handlers: { (data?: any): void; }[] = [];
@@ -63,18 +64,22 @@ class Model {
         this.currentElement = undefined;
     }
 
+    public removeElement(element: DiagramElement): void {
+        var node = this.nodesMap[element.getJointObject().id];
+        if (node) {
+            delete this.nodesMap[element.getJointObject().id];
+        } else {
+            var link = this.linksMap[element.getJointObject().id];
+            if (link) {
+                delete this.linksMap[element.getJointObject().id];
+            }
+        }
+        element.getJointObject().remove();
+    }
+
     public removeCurrentElement(): void {
         if (this.currentElement) {
-            var node = this.nodesMap[this.currentElement.getJointObject().id];
-            if (node) {
-                delete this.nodesMap[this.currentElement.getJointObject().id];
-            } else {
-                var link = this.linksMap[this.currentElement.getJointObject().id];
-                if (link) {
-                    delete this.linksMap[this.currentElement.getJointObject().id];
-                }
-            }
-            this.currentElement.getJointObject().remove();
+            this.removeElement(this.currentElement);
             this.currentElement = undefined;
         }
     }
