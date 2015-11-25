@@ -2,7 +2,6 @@ class Model {
     private nodesMap = {};
     private linksMap = {};
     private currentElement: DiagramElement;
-    private nodeTypesMap: NodeTypesMap = {};
 
     constructor(handler) {
         this.addHandler(handler);
@@ -20,10 +19,6 @@ class Model {
 
     public dispatch(data?: any) {
         this.handlers.slice(0).forEach(h => h(data));
-    }
-
-    public getNodeTypesMap(): NodeTypesMap {
-        return this.nodeTypesMap
     }
 
     public getNodesMap() {
@@ -68,16 +63,10 @@ class Model {
         this.currentElement = undefined;
     }
 
-    private removeCurrentElement(): void {
+    public removeCurrentElement(): void {
         if (this.currentElement) {
             var node = this.nodesMap[this.currentElement.getJointObject().id];
             if (node) {
-                /*var links = this.graph.getConnectedLinks(node.getJointObject(), { inbound: true, outbound: true });
-
-                links.forEach(function (link) {
-                    delete model.linksMap[link.id];
-                });*/
-
                 delete this.nodesMap[this.currentElement.getJointObject().id];
             } else {
                 var link = this.linksMap[this.currentElement.getJointObject().id];
