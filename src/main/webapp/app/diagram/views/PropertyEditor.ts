@@ -20,7 +20,7 @@ class PropertyEditor {
             var tr = $(this).closest('tr');
             var name = tr.find('td:first').html();
             var value = $(this).val();
-            var changePropertyValue: Command = new ChangeCommand(name, value);
+            var changePropertyValue: Command = new ChangePropertyCommand(name, value);
             controller.addUndoStack(changePropertyValue);
         });
     }
@@ -39,7 +39,7 @@ class PropertyEditor {
                 value = "True";
                 label.contents().last()[0].textContent = value;
             }
-            var changePropertyValue: Command = new ChangeCommand(name, value);
+            var changePropertyValue: Command = new ChangePropertyCommand(name, value);
             controller.addUndoStack(changePropertyValue);
         });
     }
@@ -50,7 +50,7 @@ class PropertyEditor {
             var tr = $(this).closest('tr');
             var name = tr.find('td:first').html();
             var value = $(this).val();
-            var changePropertyValue: Command = new ChangeCommand(name, value);
+            var changePropertyValue: Command = new ChangePropertyCommand(name, value);
             controller.addUndoStack(changePropertyValue);
         });
     }
@@ -62,7 +62,7 @@ class PropertyEditor {
             var name = tr.find('td:first').html();
             var value = $(this).val();
             if (value !== "" && !isNaN(value)) {
-                var changePropertyValue: Command = new ChangeCommand(name, value);
+                var changePropertyValue: Command = new ChangePropertyCommand(name, value);
                 controller.addUndoStack(changePropertyValue);
             }
         });
@@ -108,7 +108,7 @@ class PropertyEditor {
                 var tr = $(this).closest('tr');
                 var name = tr.find('td:first').html();
                 var value = ui.item.value;
-                var changePropertyValue: Command = new ChangeCommand(name, value);
+                var changePropertyValue: Command = new ChangePropertyCommand(name, value);
                 controller.addUndoStack(changePropertyValue);
             }
         }).focus(function() {

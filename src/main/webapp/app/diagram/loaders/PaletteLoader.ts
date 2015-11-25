@@ -3,11 +3,11 @@ class PaletteLoader {
     private categories: string[];
     private categoriesMap: CategoriesMap = {};
 
-    constructor (pathToXML: string, func) {
-        this.loadElementsFromXml(pathToXML, func);
+    constructor (pathToXML: string, init) {
+        this.loadElementsFromXml(pathToXML, init);
     }
 
-    private loadElementsFromXml(pathToXML: string, func) {
+    private loadElementsFromXml(pathToXML: string, init) {
         var paletteLoader = this;
         var req: any = XmlHttpFactory.createXMLHTTPObject();
         if (!req) {
@@ -17,7 +17,7 @@ class PaletteLoader {
 
         req.open("GET", pathToXML, true);
         req.onreadystatechange = function() {
-            paletteLoader.parseElementsXml(req, func);
+            paletteLoader.parseElementsXml(req, init);
         };
         req.send(null);
     }
@@ -42,7 +42,7 @@ class PaletteLoader {
         return this.nodeTypesMap[nodeType].properties;
     }
 
-    private parseElementsXml(req, func): void {
+    private parseElementsXml(req, init): void {
         try {
             if (req.readyState == 4) {
                 if (req.status == 200) {
@@ -84,7 +84,7 @@ class PaletteLoader {
                             this.nodeTypesMap[typeName].properties = properties;
                         }
                     }
-                    func();
+                    init();
                 } else {
                     alert("Can't load palette:\n" + req.statusText);
                 }

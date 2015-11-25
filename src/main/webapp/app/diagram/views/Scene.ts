@@ -14,6 +14,11 @@ class Scene {
         this.initDragAndDrop();
     }
 
+    public addLink(linkId: string, linkObject: Link) {
+        var addCommand: Command = new AddLinkCommand(linkId, linkObject);
+        this.controller.addUndoStack(addCommand);
+    }
+
     private initDragAndDrop(): void {
         var scene: Scene = this;
         var controller: Controller = this.controller;
@@ -45,11 +50,13 @@ class Scene {
                 }
 
                 var node: DiagramNode = new DefaultDiagramNode(type, leftElementPos, topElementPos, nodeProperties, image);
-                this.graph.addCell(node.getJointObject());
+                scene.graph.addCell(node.getJointObject());
 
-                var createNode: Command = new CreateCommand(node);
+                var createNode: Command = new CreateNodeCommand(node);
                 controller.addUndoStack(createNode);
             }
         });
     }
+
+
 }

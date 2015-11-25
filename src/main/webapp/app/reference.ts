@@ -1,9 +1,12 @@
 /// <reference path="diagram/models/DiagramElement.ts" />
 //grunt-start
 /// <reference path="XmlHttpFactory.ts" />
-/// <reference path="diagram/commands/ChangeCommand.ts" />
+/// <reference path="diagram/commands/AddLinkCommand.ts" />
+/// <reference path="diagram/commands/ChangeCurrentElementCommand.ts" />
+/// <reference path="diagram/commands/ChangePropertyCommand.ts" />
 /// <reference path="diagram/commands/Command.ts" />
-/// <reference path="diagram/commands/CreateCommand.ts" />
+/// <reference path="diagram/commands/CreateNodeCommand.ts" />
+/// <reference path="diagram/commands/RemoveCurrentElement.ts" />
 /// <reference path="diagram/controllers/Controller.ts" />
 /// <reference path="diagram/controllers/Facade.ts" />
 /// <reference path="diagram/loaders/PaletteLoader.ts" />

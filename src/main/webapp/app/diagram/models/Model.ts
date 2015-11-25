@@ -4,10 +4,22 @@ class Model {
     private currentElement: DiagramElement;
     private nodeTypesMap: NodeTypesMap = {};
 
-    private handlers: {}[] = [];
+    constructor(handler) {
+        this.addHandler(handler);
+    }
 
-    private addLink(linkId: string, linkObject: Link) {
-        this.linksMap[linkId] = linkObject;
+    private handlers: { (data?: any): void; }[] = [];
+
+    public addHandler(handler: { (data?: any): void }) {
+        this.handlers.push(handler);
+    }
+
+    public removeHandler(handler: { (data?: any): void }) {
+        this.handlers = this.handlers.filter(h => h !== handler);
+    }
+
+    public dispatch(data?: any) {
+        this.handlers.slice(0).forEach(h => h(data));
     }
 
     public getNodeTypesMap(): NodeTypesMap {
@@ -32,13 +44,17 @@ class Model {
 
     public setCurrentElement(element: DiagramElement) {
         this.currentElement = element;
-        //this.view.setNodeProperties(element);
+        this.dispatch(element);
     }
 
     public changePropertyValue(nameProperty, value) {
         var property: Property = this.currentElement.getProperties()[nameProperty];
         property.value = value;
         this.currentElement.setProperty(nameProperty, property);
+    }
+
+    public addLink(linkId: string, linkObject: Link) {
+        this.linksMap[linkId] = linkObject;
     }
 
     public createNode(node: DiagramNode): void {

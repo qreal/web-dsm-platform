@@ -1,4 +1,4 @@
-class ChangeCommand implements Command{
+class ChangePropertyCommand implements Command{
     private name: string;
     private value: string;
 

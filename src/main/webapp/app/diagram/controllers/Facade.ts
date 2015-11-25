@@ -12,15 +12,17 @@ class Facade {
         this.paletteLoader = new PaletteLoader("configs/elements.xml", function () {
             facade.init()
         });
+        this.model = new Model(function (element) {
+            facade.propertyEditor.setNodeProperties(element)
+        });
+        this.controller = new Controller(this.model);
+        this.propertyEditor = new PropertyEditor(this.controller);
 
         DropdownListManager.addDropdownList("Link", "Guard", ["", "false", "iteration", "true"]);
-        this.model = new Model;
-        this.controller = new Controller(this.model);
     }
 
     public init() {
         this.palette = new Palette(this.paletteLoader);
-        this.propertyEditor = new PropertyEditor(this.controller);
         this.scene = new Scene(this.controller, this.model, this.paletteLoader);
     }
 }

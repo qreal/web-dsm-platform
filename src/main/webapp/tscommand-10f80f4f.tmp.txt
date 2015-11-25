@@ -1,0 +1,1 @@
+"C:\programming\web-dsm-platform\src\main\webapp\app\reference.ts" --sourcemap --removeComments --target ES5 --module amd --out app/out.js

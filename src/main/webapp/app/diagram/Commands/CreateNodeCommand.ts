@@ -1,4 +1,4 @@
-class CreateCommand implements Command {
+class CreateNodeCommand implements Command {
     private node: DiagramNode;
 
     constructor(node: DiagramNode) {
