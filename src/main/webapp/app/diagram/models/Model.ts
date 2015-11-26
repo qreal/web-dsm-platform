@@ -2,24 +2,20 @@ class Model {
     private nodesMap = {};
     private linksMap = {};
     private currentElement: DiagramElement;
+    private handlers = {};
 
-    constructor(handler, handler2) {
-        this.addHandler(handler);
-        this.addHandler(handler2);
+    public addHandler(event: string, handler: { (data?: any): void }) {
+        this.handlers[event] = this.handlers[event] || [];
+        this.handlers[event].push(handler);
     }
-
-    private handlers: { (data?: any): void; }[] = [];
-
-    public addHandler(handler: { (data?: any): void }) {
-        this.handlers.push(handler);
+/*
+    public removeHandler(event: string, handler: { (data?: any): void }) {
+        this.handlers[event] = this.handlers[event].filter(h => h !== handler);
     }
-
-    public removeHandler(handler: { (data?: any): void }) {
-        this.handlers = this.handlers.filter(h => h !== handler);
-    }
-
-    public dispatch(data?: any) {
-        this.handlers.slice(0).forEach(h => h(data));
+*/
+    public dispatch(event: string, data?: any) {
+        this.handlers[event].slice(0).forEach(h => h(data));
+        console.log(event);
     }
 
     public getNodesMap() {
@@ -40,7 +36,7 @@ class Model {
 
     public setCurrentElement(element: DiagramElement) {
         this.currentElement = element;
-        this.dispatch(element);
+        this.dispatch('setCurrentElement', element);
     }
 
     public changePropertyValue(nameProperty, value) {
@@ -49,13 +45,15 @@ class Model {
         this.currentElement.setProperty(nameProperty, property);
     }
 
-    public addLink(linkId: string, linkObject: Link) {
-        this.linksMap[linkId] = linkObject;
-    }
-
-    public createNode(node: DiagramNode): void {
-        this.setCurrentElement(node);
-        this.nodesMap[node.getJointObject().id] = node;
+    public addElement(element: DiagramElement) {
+        this.setCurrentElement(element);
+        if (element.getType() === "Link") {
+            this.linksMap[element.getJointObject().id] = element;
+        }
+        else {
+            this.nodesMap[element.getJointObject().id] = element;
+        }
+        this.dispatch('addElement', element);
     }
 
     public clear() {

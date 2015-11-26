@@ -19,13 +19,13 @@ class Scene {
         this.initCustomContextMenu();
     }
 
-    public addLink(linkId: string, linkObject: Link) {
-        var addCommand: Command = new AddLinkCommand(linkId, linkObject);
+    public addLink(linkObject: Link) {
+        var addCommand: Command = new CreateCommand(linkObject);
         this.controller.addUndoStack(addCommand);
     }
 
-    public addNode(node) {
-        this.graph.addCell(node.getJointObject());
+    public addElement(element: DiagramElement) {
+        this.graph.addCell(element.getJointObject());
     }
 
     private initDragAndDrop(): void {
@@ -61,7 +61,7 @@ class Scene {
                 var node: DiagramNode = new DefaultDiagramNode(type, leftElementPos, topElementPos, nodeProperties, image);
                 scene.graph.addCell(node.getJointObject());
 
-                var createNode: Command = new CreateNodeCommand(node);
+                var createNode: Command = new CreateCommand(node);
                 controller.addUndoStack(createNode);
             }
         });

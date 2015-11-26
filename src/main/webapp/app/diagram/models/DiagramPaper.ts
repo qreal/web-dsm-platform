@@ -64,7 +64,7 @@ class DiagramPaper extends joint.dia.Paper {
 
                         var linkObject: Link = new Link(link);
 
-                        scene.addLink(link.id, linkObject);
+                        scene.addLink(linkObject);
 
                         this.paper.model.addCell(link);
 
