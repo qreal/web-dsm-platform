@@ -59,7 +59,6 @@ class Scene {
                 }
 
                 var node: DiagramNode = new DefaultDiagramNode(type, leftElementPos, topElementPos, nodeProperties, image);
-                scene.graph.addCell(node.getJointObject());
 
                 var createNode: Command = new CreateCommand(node);
                 controller.addUndoStack(createNode);
@@ -75,7 +74,6 @@ class Scene {
             function (cellView) {
                 scene.clickFlag = true;
                 var node: DiagramNode = model.getNodesMap()[cellView.model.id];
-                console.log(node);
                 if (node) {
                     var changeElement: Command = new ChangeCurrentElementCommand(node);
                     controller.addUndoStack(changeElement);

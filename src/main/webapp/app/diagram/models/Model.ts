@@ -15,7 +15,6 @@ class Model {
 */
     public dispatch(event: string, data?: any) {
         this.handlers[event].slice(0).forEach(h => h(data));
-        console.log(event);
     }
 
     public getNodesMap() {
@@ -79,6 +78,7 @@ class Model {
         if (this.currentElement) {
             this.removeElement(this.currentElement);
             this.currentElement = undefined;
+            this.dispatch('removeElement');
         }
     }
 }
