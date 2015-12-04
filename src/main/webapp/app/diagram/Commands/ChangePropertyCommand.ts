@@ -1,6 +1,7 @@
 class ChangePropertyCommand implements Command{
     private name: string;
     private value: string;
+    private oldValue: string;
 
     constructor(name: string, value: string) {
         this.name = name;
@@ -8,10 +9,11 @@ class ChangePropertyCommand implements Command{
     }
 
     public execute(model: Model) {
+        this.oldValue = model.getCurrentElement().getProperties()[this.name].value;
         model.changePropertyValue(this.name, this.value);
     }
 
     public unexecute(model: Model) {
-
+        model.changePropertyValue(this.name, this.oldValue);
     }
 }

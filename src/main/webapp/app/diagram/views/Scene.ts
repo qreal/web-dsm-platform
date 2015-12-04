@@ -72,6 +72,7 @@ class Scene {
         var controller: Controller = this.controller;
         this.paper.on('cell:pointerdown',
             function (cellView) {
+                console.log('down');
                 scene.clickFlag = true;
                 var node: DiagramNode = model.getNodesMap()[cellView.model.id];
                 if (node) {
@@ -92,11 +93,13 @@ class Scene {
     private initPointerMoveAndUpListener(): void {
         var scene: Scene = this;
         this.paper.on('cell:pointermove', function () {
+                console.log('move');
                 scene.clickFlag = false;
             }
         );
 
         this.paper.on('cell:pointerup', function (cellView, event) {
+            console.log('up');
             if (!($(event.target).parents(".custom-menu").length > 0)) {
                 $(".custom-menu").hide(100);
             }
@@ -114,6 +117,7 @@ class Scene {
     private initCustomContextMenu(): void {
         var controller = this.controller;
         $("#diagramContent").bind("contextmenu", function (event) {
+            console.log('bind');
             event.preventDefault();
         });
 

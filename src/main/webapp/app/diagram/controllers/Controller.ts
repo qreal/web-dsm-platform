@@ -22,6 +22,7 @@ class Controller {
     public addRedoStack(command: Command) {
         this.redoStack.push(command);
         command.unexecute(this.model);
+        console.log(command);
     }
 
     public redo() {

@@ -16,6 +16,7 @@ class Facade {
         this.model.addHandler('setCurrentElement', function(element) {facade.propertyEditor.setNodeProperties(element)});
         this.model.addHandler('addElement', function(element) { facade.scene.addElement(element)});
         this.model.addHandler('removeElement', function() {facade.propertyEditor.clearPropertyEditor()});
+        this.model.addHandler('changePropertyValue', function(element) {facade.propertyEditor.setNodeProperties(element)})
         this.controller = new Controller(this.model);
         this.propertyEditor = new PropertyEditor(this.controller);
 

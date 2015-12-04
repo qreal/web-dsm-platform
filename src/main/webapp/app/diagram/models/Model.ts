@@ -42,6 +42,7 @@ class Model {
         var property: Property = this.currentElement.getProperties()[nameProperty];
         property.value = value;
         this.currentElement.setProperty(nameProperty, property);
+        this.dispatch('changePropertyValue', this.currentElement);
     }
 
     public addElement(element: DiagramElement) {
