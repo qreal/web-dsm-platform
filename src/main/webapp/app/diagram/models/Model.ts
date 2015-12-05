@@ -3,6 +3,7 @@ class Model {
     private linksMap = {};
     private currentElement: DiagramElement;
     private handlers = {};
+    private nodeTypesMap: NodeTypesMap = {};
 
     public addHandler(event: string, handler: { (data?: any): void }) {
         this.handlers[event] = this.handlers[event] || [];
@@ -15,6 +16,14 @@ class Model {
 */
     public dispatch(event: string, data?: any) {
         this.handlers[event].slice(0).forEach(h => h(data));
+    }
+
+    public setNodeTypesMap(nodeTypesMap) {
+        this.nodeTypesMap = nodeTypesMap;
+    }
+
+    public getNodeTypesMap() {
+        return this.nodeTypesMap;
     }
 
     public getNodesMap() {
@@ -60,6 +69,7 @@ class Model {
         this.nodesMap = {};
         this.linksMap = {};
         this.currentElement = undefined;
+        this.dispatch('clear');
     }
 
     public removeElement(element: DiagramElement): void {

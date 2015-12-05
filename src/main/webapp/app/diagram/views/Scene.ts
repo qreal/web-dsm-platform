@@ -12,6 +12,7 @@ class Scene {
         this.model = model;
         this.paletteLoader = paletteLoader;
         this.nodeTypesMap = this.paletteLoader.getNodeTypesMap();
+        this.model.setNodeTypesMap(this.nodeTypesMap);
         this.initDragAndDrop();
         this.initPointerdownListener();
         this.initPointerMoveAndUpListener();
@@ -26,6 +27,14 @@ class Scene {
 
     public addElement(element: DiagramElement) {
         this.graph.addCell(element.getJointObject());
+    }
+
+    public clearScene() {
+        this.graph.clear();
+    }
+
+    public getGraph() {
+        return this.graph;
     }
 
     private initDragAndDrop(): void {

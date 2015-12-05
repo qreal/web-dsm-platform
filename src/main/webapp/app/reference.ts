@@ -26,6 +26,7 @@
 /// <reference path="diagram/types/NodeTypesMap.ts" />
 /// <reference path="diagram/types/PropertiesMap.ts" />
 /// <reference path="diagram/types/Property.ts" />
+/// <reference path="diagram/views/Menu.ts" />
 /// <reference path="diagram/views/Palette.ts" />
 /// <reference path="diagram/views/PropertyEditor.ts" />
 /// <reference path="diagram/views/Scene.ts" />
