@@ -81,12 +81,13 @@ class Scene {
         var controller: Controller = this.controller;
         this.paper.on('cell:pointerdown',
             function (cellView) {
-                console.log('down');
                 scene.clickFlag = true;
                 var node: DiagramNode = model.getNodesMap()[cellView.model.id];
                 if (node) {
                     var changeElement: Command = new ChangeCurrentElementCommand(node);
                     controller.addUndoStack(changeElement);
+                    var moveCommand: Command = new MoveCommand(node, node.getX(), node.getY());
+                    controller.addUndoStack(moveCommand);
                 } else {
                     var link: Link = model.getLinksMap()[cellView.model.id];
                     if (link) {
@@ -101,14 +102,14 @@ class Scene {
 
     private initPointerMoveAndUpListener(): void {
         var scene: Scene = this;
+        var model: Model = this.model;
+        var controller: Controller = this.controller;
         this.paper.on('cell:pointermove', function () {
-                console.log('move');
                 scene.clickFlag = false;
             }
         );
 
         this.paper.on('cell:pointerup', function (cellView, event) {
-            console.log('up');
             if (!($(event.target).parents(".custom-menu").length > 0)) {
                 $(".custom-menu").hide(100);
             }
@@ -126,7 +127,6 @@ class Scene {
     private initCustomContextMenu(): void {
         var controller = this.controller;
         $("#diagramContent").bind("contextmenu", function (event) {
-            console.log('bind');
             event.preventDefault();
         });
 

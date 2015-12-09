@@ -7,15 +7,13 @@ class DiagramMenuManager {
     private folderTree;
     private currentFolder;
 
-    constructor($scope) {
-        var menuManager = this;
-
-        this.facade = $scope.vm;
+    constructor(facade: Facade) {
+        this.facade = facade;
         this.currentDiagramName = "";
         this.currentDiagramFolder = null;
         this.canBeDeleted = false;
         this.pathToFolder = [];
-
+        var menuManager = this;
         $.ajax({
             type: 'GET',
             url: 'getFolderTree',

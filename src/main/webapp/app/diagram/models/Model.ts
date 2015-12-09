@@ -92,4 +92,9 @@ class Model {
             this.dispatch('removeElement');
         }
     }
+
+    public moveNode(node: DiagramNode, newX: number, newY: number): void {
+        node.setCoord(newX, newY);
+        //node.getJointObject().remove();
+    }
 }
