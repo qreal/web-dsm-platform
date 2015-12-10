@@ -1,3 +1,4 @@
+//Is responsible for moving nodes
 class MoveCommand {
     private oldX: number;
     private oldY: number;
@@ -5,6 +6,7 @@ class MoveCommand {
     private newY: number;
     private node: DiagramNode;
 
+    //receives node and current coordinates
     constructor (node: DiagramNode, oldX: number, oldY: number) {
         this.oldX = oldX;
         this.oldY = oldY;
@@ -17,6 +19,7 @@ class MoveCommand {
         }
     }
 
+    //Assigns new coordinates value of coordinates after moving node
     public unexecute(model: Model) {
         this.newX = this.node.getX();
         this.newY = this.node.getY();

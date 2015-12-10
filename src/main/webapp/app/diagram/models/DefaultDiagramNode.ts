@@ -6,8 +6,6 @@ class DefaultDiagramNode implements DiagramNode {
     private type: string;
     private properties: PropertiesMap;
     private imagePath: string;
-    private coordX: number[];
-    private coordY: number[];
 
     constructor(type: string, x: number, y: number, properties: PropertiesMap, imagePath: string, id?: string) {
         this.type = type;

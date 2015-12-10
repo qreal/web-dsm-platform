@@ -1,3 +1,4 @@
+//It is responsible for user action with elements on scene
 class Scene {
     private graph: joint.dia.Graph = new joint.dia.Graph;
     private paper: DiagramPaper = new DiagramPaper(this, this.graph);
@@ -37,6 +38,7 @@ class Scene {
         return this.graph;
     }
 
+    //Drag element from palette and drop it on scene
     private initDragAndDrop(): void {
         var scene: Scene = this;
         var controller: Controller = this.controller;
@@ -75,6 +77,7 @@ class Scene {
         });
     }
 
+    //When pointer down move and change commands create
     private initPointerdownListener(): void {
         var scene: Scene = this;
         var model: Model = this.model;
@@ -93,17 +96,14 @@ class Scene {
                     if (link) {
                         var changeElement: Command = new ChangeCurrentElementCommand(link);
                         controller.addUndoStack(changeElement);
-                    } /*else {
-                        controller.currentElement = undefined;
-                    }*/
+                    }
                 }
             });
     }
 
+    //when pointer up, if it was right click, context menu is shown
     private initPointerMoveAndUpListener(): void {
         var scene: Scene = this;
-        var model: Model = this.model;
-        var controller: Controller = this.controller;
         this.paper.on('cell:pointermove', function () {
                 scene.clickFlag = false;
             }
@@ -124,6 +124,7 @@ class Scene {
         });
     }
 
+    //tracks what menu items was clicked and create appropriate command
     private initCustomContextMenu(): void {
         var controller = this.controller;
         $("#diagramContent").bind("contextmenu", function (event) {
@@ -142,6 +143,7 @@ class Scene {
         });
     }
 
+    //tracks press the delete key
     private initDeleteListener(): void {
         var controller = this.controller;
         var deleteKey: number = 46;

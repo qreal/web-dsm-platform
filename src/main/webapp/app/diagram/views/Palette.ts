@@ -1,3 +1,4 @@
+//Takes from paletteLoader array of categories, array of node types, images and appends it to jsp; creates palette
 class Palette {
     private paletteLoader: PaletteLoader;
     private categories;

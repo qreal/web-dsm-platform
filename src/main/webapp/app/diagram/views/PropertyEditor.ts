@@ -1,6 +1,8 @@
+//It id responsible for showing property editor and monitors changes in view, create changePropertyCommand and add it to undo stack of controller
 class PropertyEditor {
     private controller: Controller;
 
+    //Initializes handlers for different types of property
     constructor(controller: Controller) {
         this.controller = controller;
         this.setInputStringListener();
@@ -79,7 +81,8 @@ class PropertyEditor {
         }
     }
 
-    public setNodeProperties(element): void {
+    //Changes properties of elements in view
+    public setElementProperties(element): void {
         $('#property_table tbody').empty();
         var properties: PropertiesMap = element.getProperties();
         for (var property in properties) {

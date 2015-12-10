@@ -1,3 +1,4 @@
+//Removes current element in execute and add him in unexecute
 class RemoveCurrentElement implements Command {
     private element: DiagramElement;
 

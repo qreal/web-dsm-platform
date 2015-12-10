@@ -1,3 +1,4 @@
+//Changes current element to new element and keeps old element to realize unexecute
 class ChangeCurrentElementCommand implements Command {
     private element: DiagramElement;
     private oldElement: DiagramElement;
@@ -8,10 +9,14 @@ class ChangeCurrentElementCommand implements Command {
 
     public execute(model: Model) {
         this.oldElement = model.getCurrentElement();
-        model.setCurrentElement(this.element);
+        if (this.oldElement !== this.element) {
+            model.setCurrentElement(this.element);
+        }
     }
 
     public unexecute(model: Model) {
-        model.setCurrentElement(this.oldElement);
+        if (this.oldElement !== this.element) {
+            model.setCurrentElement(this.oldElement);
+        }
     }
 }

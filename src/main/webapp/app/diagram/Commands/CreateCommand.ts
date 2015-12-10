@@ -1,3 +1,4 @@
+//Adds element in execute and removes this element in unexecute
 class CreateCommand implements Command {
     private element: DiagramElement;
 

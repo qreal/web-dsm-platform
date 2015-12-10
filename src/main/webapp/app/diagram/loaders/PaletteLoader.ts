@@ -1,3 +1,4 @@
+//Loader palette elements and keeps category of node types and node types
 class PaletteLoader {
     private nodeTypesMap: NodeTypesMap = {};
     private categories: string[];

@@ -1,3 +1,4 @@
+//Change value of property with a certain name and keeps old value for unexecute
 class ChangePropertyCommand implements Command{
     private name: string;
     private value: string;

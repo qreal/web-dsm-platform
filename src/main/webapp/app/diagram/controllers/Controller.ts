@@ -1,3 +1,4 @@
+//Adds commands to undo and redo stacks
 class Controller {
     private undoStack: Command[] = [];
     private redoStack: Command[] = [];
@@ -7,6 +8,7 @@ class Controller {
         this.model = model;
     }
 
+    //adds command to undo stack and calls execute
     public addUndoStack(command: Command) {
         this.undoStack.push(command);
         command.execute(this.model);
@@ -19,6 +21,7 @@ class Controller {
         }
     }
 
+    //add command to undo stack and calls unexecute
     public addRedoStack(command: Command) {
         this.redoStack.push(command);
         command.unexecute(this.model);
