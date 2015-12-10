@@ -1,9 +1,9 @@
 class DiagramPaper extends joint.dia.Paper {
-    private controller;
+    private scene;
     private gridSizeValue: number;
 
-    constructor(controller: DiagramController, graph: joint.dia.Graph) {
-        this.controller = controller;
+    constructor(scene: Scene, graph: joint.dia.Graph) {
+        this.scene = scene;
         this.gridSizeValue = 25;
 
         super({
@@ -33,7 +33,7 @@ class DiagramPaper extends joint.dia.Paper {
     }
 
     private getDiagramElementView() {
-        var controller = this.controller;
+        var scene = this.scene;
         return jQuery.extend(joint.shapes.basic.PortsViewInterface,
             {
                 pointerdown: function (evt, x, y) {
@@ -64,7 +64,7 @@ class DiagramPaper extends joint.dia.Paper {
 
                         var linkObject: Link = new Link(link);
 
-                        controller.addLink(link.id, linkObject);
+                        scene.addLink(linkObject);
 
                         this.paper.model.addCell(link);
 

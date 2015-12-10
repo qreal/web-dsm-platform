@@ -1,3 +1,4 @@
+//Returns html string with new value of property, which will be added to jsp in propertyEditor
 class PropertyManager {
 
     static getPropertyHtml(typeName: string, propertyName: string, property: Property): string {

@@ -1,6 +1,6 @@
 class DiagramMenuManager {
-
-    private diagramController: DiagramController;
+    private model: Model;
+    private scene: Scene;
     private currentDiagramName: string;
     private currentDiagramFolder;
     private canBeDeleted: boolean;
@@ -8,15 +8,14 @@ class DiagramMenuManager {
     private folderTree;
     private currentFolder;
 
-    constructor($scope) {
-        var menuManager = this;
-
-        this.diagramController = $scope.vm;
+    constructor(model: Model, scene: Scene) {
+        this.model = model;
+        this.scene = scene;
         this.currentDiagramName = "";
         this.currentDiagramFolder = null;
         this.canBeDeleted = false;
         this.pathToFolder = [];
-
+        var menuManager = this;
         $.ajax({
             type: 'GET',
             url: 'getFolderTree',
@@ -43,7 +42,7 @@ class DiagramMenuManager {
     }
 
     private clearAll(): void {
-        this.diagramController.clearScene();
+        this.model.clear();
         this.canBeDeleted = false;
         this.currentDiagramName = "";
         this.currentDiagramFolder = null;
@@ -78,7 +77,7 @@ class DiagramMenuManager {
             dataType: 'text',
             contentType: 'application/json',
             data: (ExportManager.exportSavingDiagramStateToJSON(diagramName, this.currentFolder.folderId,
-                this.diagramController.getNodesMap(), this.diagramController.getLinksMap())),
+                this.model.getNodesMap(), this.model.getLinksMap())),
             success: function (diagramId) {
                 FolderTreeManager.addDiagramToFolder(diagramName, diagramId, menuManager.currentFolder);
                 menuManager.currentFolder = menuManager.folderTree;
@@ -107,7 +106,7 @@ class DiagramMenuManager {
                 dataType: 'text',
                 contentType: 'application/json',
                 data: (ExportManager.exportUpdatingDiagramStateToJSON(this.currentDiagramName, this.currentDiagramFolder,
-                    this.diagramController.getNodesMap(), this.diagramController.getLinksMap())),
+                    this.model.getNodesMap(), this.model.getLinksMap())),
                 success: function () {
                     if (menuManager.canBeDeleted) {
                         menuManager.clearAll();
@@ -133,9 +132,9 @@ class DiagramMenuManager {
             contentType: 'application/json',
             data: (JSON.stringify({id: FolderTreeManager.getDiagramIdByName(diagramName, this.currentDiagramFolder)})),
             success: function (response) {
-                menuManager.diagramController.clearScene();
-                ImportManager.import(response, menuManager.diagramController.getGraph(), menuManager.diagramController.getNodesMap(),
-                    menuManager.diagramController.getLinksMap(), menuManager.diagramController.getNodeTypesMap());
+                menuManager.model.clear();
+                ImportManager.import(response, menuManager.scene.getGraph(), menuManager.model.getNodesMap(),
+                    menuManager.model.getLinksMap(), menuManager.model.getNodeTypesMap());
             },
             error: function (response, status, error) {
                 console.log("error: " + status + " " + error);

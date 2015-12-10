@@ -1,5 +1,15 @@
+//Loader palette elements and keeps category of node types and node types
 class PaletteLoader {
-    static loadElementsFromXml(controller: DiagramController, pathToXML: string, $scope, $compile): void {
+    private nodeTypesMap: NodeTypesMap = {};
+    private categories: string[];
+    private categoriesMap: CategoriesMap = {};
+
+    constructor (pathToXML: string, init) {
+        this.loadElementsFromXml(pathToXML, init);
+    }
+
+    private loadElementsFromXml(pathToXML: string, init) {
+        var paletteLoader = this;
         var req: any = XmlHttpFactory.createXMLHTTPObject();
         if (!req) {
             alert("Can't load xml document!");
@@ -8,42 +18,52 @@ class PaletteLoader {
 
         req.open("GET", pathToXML, true);
         req.onreadystatechange = function() {
-            PaletteLoader.parseElementsXml(req, controller, $scope, $compile);
+            paletteLoader.parseElementsXml(req, init);
         };
         req.send(null);
     }
 
-    private static addDropdownList(typeName: string, propertyName: string, variants): void {
-        var list = [];
-        for (var i = 0; i < variants.length; i++) {
-            list.push(variants[i].childNodes[0].nodeValue);
-        }
-        DropdownListManager.addDropdownList(typeName, propertyName, list);
+    public getNodeTypesMap() {
+        return this.nodeTypesMap;
     }
 
-    private static parseElementsXml(req, controller: DiagramController, $scope, $compile): void {
+    public getCategories() {
+        return this.categories;
+    }
+
+    public getNodeTypeByCategory(category: string) {
+        return this.categoriesMap[category].elements;
+    }
+
+    public getImageByNodeType(nodeType: string) {
+        return this.nodeTypesMap[nodeType].image;
+    }
+
+    public getPropertiesByNodeType(nodeType: string) {
+        return this.nodeTypesMap[nodeType].properties;
+    }
+
+    private parseElementsXml(req, init): void {
         try {
             if (req.readyState == 4) {
                 if (req.status == 200) {
                     var xmlDoc = req.responseXML;
-                    var nodeTypesMap: NodeTypesMap = {};
-                    var content: string = '';
                     var categories = xmlDoc.getElementsByTagName("Category");
+                    this.categories = [categories.length];
                     for (var k = 0; k < categories.length; k++) {
-                        content += '<li><p>' + categories[k].getAttribute('name') + '</p><ul>';
                         var elements = categories[k].getElementsByTagName("Element");
-
+                        this.categories[k] = categories[k].getAttribute('name');
+                        this.categoriesMap[this.categories[k]] = new Category();
+                        this.categoriesMap[this.categories[k]].elements = [elements.length];
                         for (var i = 0; i < elements.length; i++) {
                             var typeName: string = elements[i].getAttribute('name');
-                            nodeTypesMap[typeName] = new NodeType();
-                            content += '<li><div class="tree_element">';
-
+                            this.nodeTypesMap[typeName] = new NodeType();
+                            this.categoriesMap[this.categories[k]].elements[i] = typeName;
                             var elementProperties = elements[i].getElementsByTagName("Property");
-                            var properties:PropertiesMap = {};
+                            var properties: PropertiesMap = {};
                             for (var j = 0; j < elementProperties.length; j++) {
                                 var propertyName: string = elementProperties[j].getAttribute('name');
                                 var propertyType: string = elementProperties[j].getAttribute('type');
-
                                 if (propertyType === "dropdown") {
                                     this.addDropdownList(typeName, propertyName, elementProperties[j].
                                         getElementsByTagName("Variants")[0].getElementsByTagName("variant"));
@@ -61,25 +81,11 @@ class PaletteLoader {
                             }
 
                             var image: string = elements[i].getElementsByTagName("Image")[0].getAttribute('src');
-                            nodeTypesMap[typeName].image = image;
-                            nodeTypesMap[typeName].properties = properties;
-
-                            content += '<img class="elementImg" src="' + image + '" />';
-                            content += typeName;
-                            content += '</div></li>';
+                            this.nodeTypesMap[typeName].image = image;
+                            this.nodeTypesMap[typeName].properties = properties;
                         }
-
-                        content += '</ul></li>';
                     }
-
-                    $('#navigation').append($compile(content)($scope));
-
-                    $("#navigation").treeview({
-                        persist: "location"
-                    });
-
-                    controller.setNodeTypesMap(nodeTypesMap);
-                    controller.initPalette();
+                    init();
                 } else {
                     alert("Can't load palette:\n" + req.statusText);
                 }
@@ -87,5 +93,13 @@ class PaletteLoader {
         } catch(e) {
             alert("Palette loading error: " + e.message);
         }
+    }
+
+    private addDropdownList(typeName: string, propertyName: string, variants): void {
+        var list = [];
+        for (var i = 0; i < variants.length; i++) {
+            list.push(variants[i].childNodes[0].nodeValue);
+        }
+        DropdownListManager.addDropdownList(typeName, propertyName, list);
     }
 }
