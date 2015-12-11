@@ -9,8 +9,12 @@ class ChangePropertyCommand implements Command{
         this.value = value;
     }
 
-    public execute(model: Model) {
+    public reversible(model: Model) {
         this.oldValue = model.getCurrentElement().getProperties()[this.name].value;
+        return this.oldValue !== this.value;
+    }
+
+    public execute(model: Model) {
         model.changePropertyValue(this.name, this.value);
     }
 

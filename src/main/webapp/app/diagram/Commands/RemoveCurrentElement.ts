@@ -10,4 +10,8 @@ class RemoveCurrentElement implements Command {
     public unexecute(model: Model) {
         model.addElement(this.element);
     }
+
+    public reversible(model: Model): boolean {
+        return true;
+    }
 }

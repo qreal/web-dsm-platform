@@ -6,6 +6,8 @@ class DefaultDiagramNode implements DiagramNode {
     private type: string;
     private properties: PropertiesMap;
     private imagePath: string;
+    private oldX: number;
+    private oldY: number;
 
     constructor(type: string, x: number, y: number, properties: PropertiesMap, imagePath: string, id?: string) {
         this.type = type;
@@ -60,5 +62,18 @@ class DefaultDiagramNode implements DiagramNode {
 
     getProperties(): PropertiesMap {
         return this.properties;
+    }
+
+    setOldCoord(x: number, y: number) {
+        this.oldX = x;
+        this.oldY = y;
+    }
+
+    getOldX(): number {
+        return this.oldX;
+    }
+
+    getOldY(): number {
+        return this.oldY;
     }
 }

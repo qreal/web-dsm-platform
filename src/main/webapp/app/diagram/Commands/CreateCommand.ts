@@ -13,4 +13,8 @@ class CreateCommand implements Command {
     public unexecute(model: Model) {
         model.removeElement(this.element);
     }
+
+    public reversible(model: Model) : boolean {
+        return true;
+    }
 }

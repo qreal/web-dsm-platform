@@ -89,8 +89,7 @@ class Scene {
                 if (node) {
                     var changeElement: Command = new ChangeCurrentElementCommand(node);
                     controller.addUndoStack(changeElement);
-                    var moveCommand: Command = new MoveCommand(node, node.getX(), node.getY());
-                    controller.addUndoStack(moveCommand);
+                    node.setOldCoord(node.getX(), node.getY());
                 } else {
                     var link: Link = model.getLinksMap()[cellView.model.id];
                     if (link) {
@@ -104,12 +103,21 @@ class Scene {
     //when pointer up, if it was right click, context menu is shown
     private initPointerMoveAndUpListener(): void {
         var scene: Scene = this;
+        var model: Model = this.model;
+        var controller: Controller = this.controller;
         this.paper.on('cell:pointermove', function () {
                 scene.clickFlag = false;
             }
         );
 
         this.paper.on('cell:pointerup', function (cellView, event) {
+            if (!scene.clickFlag) {
+                var node: DiagramNode = model.getNodesMap()[cellView.model.id];
+                if (node) {
+                    var moveCommand:Command = new MoveCommand(node);
+                    controller.addUndoStack(moveCommand);
+                }
+            }
             if (!($(event.target).parents(".custom-menu").length > 0)) {
                 $(".custom-menu").hide(100);
             }

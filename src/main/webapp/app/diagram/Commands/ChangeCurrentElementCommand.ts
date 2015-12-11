@@ -7,16 +7,16 @@ class ChangeCurrentElementCommand implements Command {
         this.element = element;
     }
 
-    public execute(model: Model) {
+    public reversible(model: Model) : boolean{
         this.oldElement = model.getCurrentElement();
-        if (this.oldElement !== this.element) {
-            model.setCurrentElement(this.element);
-        }
+        return (this.oldElement !== this.element);
+    }
+
+    public execute(model: Model) {
+        model.setCurrentElement(this.element);
     }
 
     public unexecute(model: Model) {
-        if (this.oldElement !== this.element) {
-            model.setCurrentElement(this.oldElement);
-        }
+        model.setCurrentElement(this.oldElement);
     }
 }

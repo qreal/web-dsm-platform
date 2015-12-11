@@ -2,4 +2,5 @@
 interface Command {
     execute(model: Model);
     unexecute(model: Model);
+    reversible(model: Model): boolean;
 }

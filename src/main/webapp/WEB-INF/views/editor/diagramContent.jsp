@@ -1,4 +1,4 @@
-<div id="diagramContent" class="unselectable" ng-controller="Facade">
+<div id="diagramContent" class="unselectable" ng-controller="EditorFacade">
     <ul class='custom-menu'>
         <li data-action="delete">Delete</li>
     </ul>

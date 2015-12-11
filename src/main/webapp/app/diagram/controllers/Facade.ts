@@ -31,6 +31,7 @@ class EditorFacade {
 
     //Runs after loading palette elements, because this fields use palette loader
     public init() {
+
         this.palette = new Palette(this.paletteLoader);
         this.scene = new Scene(this.controller, this.model, this.paletteLoader);
         this.menuController = new DiagramMenuManager(this.model, this.scene);

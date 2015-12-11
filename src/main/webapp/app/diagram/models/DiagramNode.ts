@@ -6,4 +6,7 @@ interface DiagramNode extends DiagramElement {
     getY(): number;
     getImagePath(): string;
     setCoord(x: number, y: number);
+    getOldX(): number;
+    getOldY(): number;
+    setOldCoord(x: number, y: number);
 }

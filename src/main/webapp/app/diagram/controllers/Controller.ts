@@ -1,36 +1,34 @@
 //Adds commands to undo and redo stacks
 class Controller {
-    private undoStack: Command[] = [];
-    private redoStack: Command[] = [];
+    private undoRedoStack: Command[] = [];
+    private pointer: number = -1;
     private model: Model;
 
     constructor(model: Model) {
         this.model = model;
     }
 
-    //adds command to undo stack and calls execute
+    //adds command to stack and calls execute
     public addUndoStack(command: Command) {
-        this.undoStack.push(command);
-        command.execute(this.model);
-        console.log(command);
-    }
-
-    public undo() {
-        if (this.redoStack.length !== 0) {
-            this.addUndoStack(this.redoStack.pop());
+        if (command.reversible(this.model)) {
+            this.pointer++;
+            this.undoRedoStack[this.pointer] = command;
+            command.execute(this.model);
+            console.log(command);
         }
     }
 
-    //add command to undo stack and calls unexecute
-    public addRedoStack(command: Command) {
-        this.redoStack.push(command);
-        command.unexecute(this.model);
-        console.log(command);
+    public undo() {
+        if (this.pointer < this.undoRedoStack.length - 1) {
+            this.pointer++;
+            this.undoRedoStack[this.pointer].execute(this.model);
+        }
     }
 
     public redo() {
-        if (this.undoStack.length !== 0) {
-            this.addRedoStack(this.undoStack.pop());
+        if (this.pointer !== -1) {
+            this.undoRedoStack[this.pointer].unexecute(this.model);
+            this.pointer--;
         }
     }
 }
